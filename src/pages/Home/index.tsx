@@ -9,12 +9,24 @@ const newCycleFormValidationSchema = zod.object({
     minutesAmount: zod.number().min(5).max(60),
 })
 
+// interface NewCycleFormData {
+//     task: string,
+//     minutesAmount: number,
+// }
+
+type NewCycleFormData = zod.infer<typeof newCycleFormValidationSchema>
+
+
 export function Home() {
-    const { register, handleSubmit, watch } = useForm({
+    const { register, handleSubmit, watch } = useForm<NewCycleFormData>({
         resolver: zodResolver(newCycleFormValidationSchema),
+        defaultValues: {
+            task: '',
+            minutesAmount: 0,
+        }
     })
 
-    function handleCreateNewCicle(data: any) {
+    function handleCreateNewCicle(data: NewCycleFormData) {
         // TODO: Create new cicle with the form data
         console.log(data)
     }
